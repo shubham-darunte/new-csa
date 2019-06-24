@@ -1,0 +1,40 @@
+#database cosanalysis
+
+
+CREATE TABLE public.review_entity_types (
+ id INTEGER NOT NULL,
+ name VARCHAR(50) NOT NULL,
+ description VARCHAR(240),
+ is_published INTEGER DEFAULT 1,
+ order_num INTEGER DEFAULT 0,
+ CONSTRAINT pk_review_entity_types PRIMARY KEY(id),
+ CONSTRAINT uk_review_entity_types UNIQUE(name)
+) 
+WITH (oids = true);
+
+
+CREATE TABLE public.reviews1 (
+ id SERIAL,
+ review_entity_type_id INTEGER NOT NULL,
+ comment VARCHAR(240) NOT NULL,
+ created_on TIMESTAMP WITH TIME ZONE NOT NULL,
+ CONSTRAINT pk_reviews1 PRIMARY KEY(id),
+ CONSTRAINT fkey_reviews_review_entity_type_id FOREIGN KEY (review_entity_type_id)
+   REFERENCES public.review_entity_types(id)
+   ON DELETE RESTRICT
+   ON UPDATE RESTRICT
+   NOT DEFERRABLE
+) 
+WITH (oids = true);
+
+
+CREATE TABLE public.sentiments (
+ id SERIAL,
+ review_id INTEGER NOT NULL,
+ sentiment VARCHAR(240) NOT NULL,
+ label VARCHAR(240) NOT NULL,
+ keywords VARCHAR(240) NOT NULL,
+ created_on TIMESTAMP WITH TIME ZONE NOT NULL,
+ CONSTRAINT pk_sentiments PRIMARY KEY(id)
+) 
+WITH (oids = true);
